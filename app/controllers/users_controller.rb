@@ -9,8 +9,8 @@ class UsersController < ApplicationController
 
   def search
     if(params[:friend].present?)
-      @friend = User.find_by_name_email(params[:friend])
-      if @friend
+      @friends = User.search(params[:friend])
+      if @friends
         respond_to do |format|
           format.html do
             render partial: 'users/friend_result'

@@ -38,9 +38,29 @@ class User < ApplicationRecord
     "Anonymous"
   end
 
-  def self.find_by_name_email(name_or_email)
-    user = where(first_name: name_or_email).first
-    user = where(email: name_or_email).first unless user
-    return user
+  def self.search(param)
+    # Returns a copy of str with leading and trailing whitespace removed
+    param.strip!
+    # uniq - Returns a new array by removing duplicate values in self.
+    to_send_back = (first_name_mathes(param) + last_name_mathes(param) + email_mathes(param)).uniq
+    return nil unless to_send_back
+    to_send_back
+  end
+
+  def self.first_name_mathes(param)
+    mathes('first_name', param)
+  end
+
+  def self.last_name_mathes(param)
+    mathes('last_name', param)
+  end
+
+  def self.email_mathes(param)
+    mathes('email', param)
+  end
+
+  # look for some field with param
+  def self.mathes(field_name, param)
+    where("#{field_name} like ?", "%#{param}%")
   end
 end
