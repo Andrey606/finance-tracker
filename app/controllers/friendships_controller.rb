@@ -5,8 +5,8 @@ class FriendshipsController < ApplicationController
     if friend
       @friendship = Friendship.create(user_id: current_user.id, friend_id: friend.id)
       flash[:notice] = "Friend #{friend.first_name} was su successfully followed"
-      redirect_to my_friends_path
     end
+    redirect_to my_friends_path
   end
 
   def destroy
