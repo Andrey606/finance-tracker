@@ -3,23 +3,29 @@
 </div>
 
 <% if @friends %>
-  <% @friends.each do |friend| %>
     <div class="card card-header results-block">
-      <strong>Email: </strong> <%= friend.email %>
-      <strong>First name: </strong> <%= friend.first_name %>
-      <strong>Last name: </strong> <%= friend.last_name %>
-      <% if current_user.can_follow_friend?(friend.first_name) %>
-        <%= link_to 'Follow friend', friendships_path(user: current_user, friend: friend.first_name), method: :path,
-                    class: 'btn btn-xs btn-success' %>
-      <% else %>
-        <span class="badge badge-secondary">
-          <% if current_user.first_name != friend.first_name %>
-            You are already tracking this friend
-          <% else %>
-            You can't follow yourself
+      <table class="col-md-12">
+        <tbody>
+          <% @friends.each do |friend| %>
+            <tr>
+              <td><strong>Email: </strong> <%= friend.email %></td>
+              <td><strong>Name: </strong> <%= friend.full_name %></td>
+              <td><strong>Action: </strong><%= link_to 'View profile', '#', class: 'btn btn-xs btn-success' %></td>
+              <% if current_user.can_follow_friend?(friend.first_name) %>
+                <td><%= link_to 'Follow friend', friendships_path(user: current_user, friend: friend.first_name), method: :path,
+                            class: 'btn btn-xs btn-success' %></td>
+              <% else %>
+                <td><span class="badge badge-secondary">
+                  <% if current_user.first_name != friend.first_name %>
+                    You are already tracking this friend
+                  <% else %>
+                    You can't follow yourself
+                  <% end %>
+                </span></td>
+              <% end %>
+            </tr>
           <% end %>
-        </span>
-      <% end %>
+        </tbody>
+      </table>
     </div>
-  <% end %>
 <% end %>
