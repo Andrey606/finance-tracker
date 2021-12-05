@@ -1,0 +1,23 @@
+<div class="results-block">
+  <%= render "layouts/messages" %>
+</div>
+
+<% if @friend %>
+  <div class="card card-header results-block">
+    <strong>Email: </strong> <%= @friend.email %>
+    <strong>First name: </strong> <%= @friend.first_name %>
+    <strong>Last name: </strong> <%= @friend.last_name %>
+    <% if current_user.can_follow_friend?(@friend.first_name) %>
+      <%= link_to 'Follow friend', friendships_path(user: current_user, friend: @friend.first_name), method: :path,
+                  class: 'btn btn-xs btn-success' %>
+    <% else %>
+      <span class="badge badge-secondary">
+        <% if current_user.first_name != @friend.first_name %>
+          You are already tracking this friend
+        <% else %>
+          You can't follow yourself
+        <% end %>
+      </span>
+    <% end %>
+  </div>
+<% end %>
